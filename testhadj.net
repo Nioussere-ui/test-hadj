@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Plateforme Test Hadj</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .form-group { margin: 15px 0; }
+        label { display: inline-block; width: 200px; }
+        input, select { width: 300px; padding: 8px; }
+        .step { border: 1px solid #ccc; padding: 20px; margin: 20px 0; }
+        .step-title { color: #2E86C1; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🏪 Plateforme de Test - Inscription Hadj</h1>
+    
+    <!-- Étape 1 : Création de compte -->
+    <div class="step" id="etape1">
+        <div class="step-title">Étape 1 : Création de compte</div>
+        <form id="form-compte">
+            <div class="form-group">
+                <label for="telephone">Téléphone :</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="+22670123456">
+            </div>
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" placeholder="exemple@email.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="button" onclick="validerEtape1()">Valider</button>
+        </form>
+    </div>
+    
+    <!-- Étape 2 : Informations personnelles -->
+    <div class="step" id="etape2" style="display:none;">
+        <div class="step-title">Étape 2 : Informations personnelles</div>
+        <form id="form-personnel">
+            <div class="form-group">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom">
+            </div>
+            <div class="form-group">
+                <label for="date_naissance">Date de naissance :</label>
+                <input type="date" id="date_naissance" name="date_naissance">
+            </div>
+            <div class="form-group">
+                <label for="passeport">Numéro passeport :</label>
+                <input type="text" id="passeport" name="passeport">
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo passeport :</label>
+                <input type="file" id="photo" name="photo" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="agence">Agence :</label>
+                <select id="agence" name="agence">
+                    <option value="">Sélectionnez...</option>
+                    <option value="hijaz">Agence El Hijaz Voyages</option>
+                    <option value="safar">Agence Safar Voyages</option>
+                </select>
+            </div>
+            <button type="button" onclick="validerEtape2()">Valider</button>
+        </form>
+    </div>
+    
+    <!-- Étape 3 : Documents -->
+    <div class="step" id="etape3" style="display:none;">
+        <div class="step-title">Étape 3 : Documents justificatifs</div>
+        <form id="form-documents">
+            <div class="form-group">
+                <label for="recu">Reçu de paiement :</label>
+                <input type="file" id="recu" name="recu" accept=".pdf,.jpg,.png">
+            </div>
+            <div class="form-group">
+                <label for="certificat">Certificat médical :</label>
+                <input type="file" id="certificat" name="certificat" accept=".pdf,.jpg,.png">
+            </div>
+            <div class="form-group">
+                <label>Numéro d'inscription :</label>
+                <input type="text" id="numero_inscription" readonly value="HAJ-2024-XXXXXX">
+            </div>
+            <button type="button" onclick="validerEtape3()">Finaliser l'inscription</button>
+        </form>
+    </div>
+    
+    <!-- Résultat -->
+    <div class="step" id="resultat" style="display:none;">
+        <div class="step-title" style="color:green;">✅ Inscription terminée avec succès !</div>
+        <p>Numéro d'inscription : <strong id="num_final">HAJ-2024-XXXXXX</strong></p>
+        <p>Date : <span id="date_finale"></span></p>
+    </div>
+    
+    <script>
+        function validerEtape1() {
+            document.getElementById('etape1').style.display = 'none';
+            document.getElementById('etape2').style.display = 'block';
+        }
+        
+        function validerEtape2() {
+            document.getElementById('etape2').style.display = 'none';
+            document.getElementById('etape3').style.display = 'block';
+        }
+        
+        function validerEtape3() {
+            document.getElementById('etape3').style.display = 'none';
+            document.getElementById('resultat').style.display = 'block';
+            document.getElementById('date_finale').textContent = new Date().toLocaleDateString();
+        }
+    </script>
+</body>
+</html>
