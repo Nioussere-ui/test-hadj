@@ -1,333 +1,217 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RU NovaFlow • Campus BF</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RU NovaFlow+ • Paiement intelligent</title>
   <style>
     :root {
       --bg: #060b1f;
-      --surface: rgba(255, 255, 255, 0.08);
-      --surface-strong: rgba(255, 255, 255, 0.14);
-      --primary: #5b8cff;
-      --accent: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      --surface: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.2);
       --text: #f8fafc;
       --muted: #cbd5e1;
-      --line: rgba(255, 255, 255, 0.2);
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --primary: #2563eb;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background: radial-gradient(circle at 20% 20%, #1e3a8a, transparent 40%),
-                  radial-gradient(circle at 80% 10%, #6d28d9, transparent 35%),
-                  radial-gradient(circle at 30% 80%, #0f766e, transparent 45%),
-                  var(--bg);
+      font-family: Inter, Segoe UI, Arial, sans-serif;
       color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, #1e3a8a, transparent 35%),
+        radial-gradient(circle at 82% 20%, #7c3aed, transparent 33%),
+        radial-gradient(circle at 30% 85%, #0f766e, transparent 40%),
+        var(--bg);
       min-height: 100vh;
-      animation: fadeIn 800ms ease;
+      animation: fade .7s ease;
     }
-
-    .container {
-      max-width: 1180px;
-      margin: 32px auto;
-      padding: 0 16px 32px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
+    .container { max-width: 1200px; margin: 28px auto; padding: 0 16px 28px; }
     .panel {
       background: var(--surface);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 34px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
     }
-
-    .main-title {
-      font-size: clamp(1.45rem, 2.5vw, 2.3rem);
-      margin: 0 0 10px;
-      line-height: 1.25;
+    .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .title { margin: 0 0 8px; font-size: clamp(1.4rem, 2.4vw, 2.1rem); }
+    .subtitle { margin: 0; color: var(--muted); }
+    .chip {
+      display: inline-block; margin-bottom: 8px; padding: 5px 10px; border-radius: 999px;
+      border: 1px solid var(--line); background: rgba(255,255,255,.08); font-size: .82rem; animation: float 3s ease-in-out infinite;
     }
+    .kpi { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+    .kpi .box { border: 1px solid var(--line); border-radius: 12px; padding: 10px; background: rgba(255,255,255,.05); }
+    .kpi strong { display: block; font-size: 1.35rem; }
 
-    .subtitle { color: var(--muted); margin: 0; }
-
-    .tag {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: .8rem;
-      margin-bottom: 12px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.4rem;
-      color: #dbeafe;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
-    }
-
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.1rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    label {
-      font-size: .88rem;
-      color: var(--muted);
-      margin-bottom: 5px;
-      display: block;
-    }
-
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    h2 { margin: 0 0 10px; font-size: 1.05rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    label { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 4px; }
     input, select, button {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      padding: 10px 11px;
-      font-size: .96rem;
+      width: 100%; border-radius: 11px; border: 1px solid var(--line); padding: 9px 10px; font-size: .94rem;
     }
-
-    input, select {
-      background: rgba(15, 23, 42, 0.55);
-      color: var(--text);
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform .15s ease, opacity .2s ease;
-    }
-
+    input, select { background: rgba(15,23,42,.58); color: var(--text); }
+    button { border: none; cursor: pointer; color: white; font-weight: 700; transition: transform .15s ease; }
     button:hover { transform: translateY(-1px); }
-    .btn-main { background: linear-gradient(90deg, #4f46e5, #2563eb); color: white; }
-    .btn-ok { background: linear-gradient(90deg, #059669, #10b981); color: white; }
-    .btn-reset { background: linear-gradient(90deg, #b45309, #f59e0b); color: white; }
+    .btn-pay { background: linear-gradient(90deg,#4f46e5,#2563eb); }
+    .btn-ticket { background: linear-gradient(90deg,#059669,#10b981); }
+    .btn-serve { background: linear-gradient(90deg,#0284c7,#0ea5e9); }
+    .btn-reset { background: linear-gradient(90deg,#b45309,#f59e0b); }
+    .actions { margin-top: 8px; display: grid; gap: 7px; }
 
-    .actions { display: grid; gap: 8px; margin-top: 10px; }
+    .msg { display:none; margin-top:8px; border-radius: 10px; padding: 10px; border: 1px solid transparent; }
+    .msg.show { display:block; animation: pop .25s ease; }
+    .msg.ok { background: rgba(16,185,129,.14); border-color: rgba(16,185,129,.5); }
+    .msg.err { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.5); }
 
-    .message {
-      margin-top: 10px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      padding: 10px;
-      display: none;
-    }
+    .call { text-align: center; border: 1px dashed var(--line); border-radius: 14px; padding: 11px; background: rgba(15,23,42,.45); margin-bottom: 8px; }
+    .call .num { font-size: 1.8rem; font-weight: 900; color: #93c5fd; animation: pulse 1.35s ease infinite; }
 
-    .message.show { display: block; animation: pop .25s ease; }
-    .message.success { background: rgba(16, 185, 129, .15); border-color: rgba(16,185,129,.45); }
-    .message.error { background: rgba(239, 68, 68, .15); border-color: rgba(239,68,68,.45); }
+    table { width: 100%; border-collapse: collapse; margin-top: 7px; font-size: .9rem; }
+    th, td { text-align: left; border-bottom: 1px solid rgba(255,255,255,.15); padding: 8px; vertical-align: top; }
+    .badge { display:inline-block; padding: 3px 8px; border-radius: 999px; border: 1px solid transparent; font-size: .74rem; }
+    .pending { color: #fde68a; border-color: rgba(245,158,11,.55); }
+    .served { color: #86efac; border-color: rgba(16,185,129,.55); }
+    .paid { color: #93c5fd; border-color: rgba(59,130,246,.6); }
 
-    .call-screen {
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-      padding: 14px;
-      text-align: center;
-      background: rgba(15, 23, 42, 0.5);
-      margin-bottom: 10px;
-    }
-
-    .call-screen .now {
-      font-size: 1.9rem;
-      font-weight: 900;
-      color: #93c5fd;
-      animation: pulse 1.4s ease infinite;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-      font-size: .92rem;
-    }
-
-    th, td {
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 9px;
-    }
-
-    .badge {
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-size: .75rem;
-      border: 1px solid transparent;
-      display: inline-block;
-    }
-
-    .pending { color: #fde68a; border-color: rgba(245, 158, 11, .5); }
-    .served { color: #86efac; border-color: rgba(16, 185, 129, .5); }
-
-    .note { font-size: .85rem; color: var(--muted); margin-top: 8px; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(59, 130, 246, 0.4); }
-      50% { transform: scale(1.06); text-shadow: 0 0 18px rgba(59, 130, 246, 0.8); }
-    }
-
-    @keyframes pop {
-      from { transform: translateY(4px); opacity: .2; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .full { margin-top: 14px; }
+    .note { color: var(--muted); font-size: .84rem; margin-top: 6px; }
 
     @media (max-width: 980px) {
-      .hero, .layout { grid-template-columns: 1fr; }
-      .grid-2 { grid-template-columns: 1fr; }
+      .hero, .layout, .grid2 { grid-template-columns: 1fr; }
     }
+    @keyframes pulse { 50% { transform: scale(1.06); text-shadow: 0 0 16px rgba(59,130,246,.7); } }
+    @keyframes pop { from { transform: translateY(4px); opacity: .2; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes float { 50% { transform: translateY(-4px); } }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
   <div class="container">
     <section class="hero">
       <div class="panel">
-        <div class="tag">🇧🇫 Projet campus • RU NovaFlow</div>
-        <h1 class="main-title">Système intelligent de tickets RU pour supprimer les longues files d'attente</h1>
-        <p class="subtitle">Fini les listes papier et les tablettes en bois. La plateforme génère automatiquement l'ordre de passage, contrôle la limite de 3 tickets/jour et renforce la transparence.</p>
+        <span class="chip">🇧🇫 RU NovaFlow+ • Paiement 100 FCFA avant ticket</span>
+        <h1 class="title">Faire mieux qu’Orange seul : paiement multi-options + ticket RU vérifiable</h1>
+        <p class="subtitle">L’étudiant paie d’abord <strong>100 FCFA</strong>, puis le système crée un crédit utilisable pour générer un ticket RU (max 3/jour). Cela permet un suivi exact des paiements, des repas, et des fraudes.</p>
       </div>
       <div class="panel">
-        <h2>Indicateurs du jour</h2>
-        <div class="stats">
-          <div class="stat"><span>Tickets créés</span><strong id="totalTickets">0</strong></div>
-          <div class="stat"><span>En attente</span><strong id="ticketsEnAttente">0</strong></div>
-          <div class="stat"><span>Repas servis</span><strong id="repasServis">0</strong></div>
-          <div class="stat"><span>Fraudes bloquées</span><strong id="fraudesBloquees">0</strong></div>
+        <h2>Tableau de contrôle</h2>
+        <div class="kpi">
+          <div class="box">Paiements validés<strong id="kpiPayes">0</strong></div>
+          <div class="box">Montant collecté<strong id="kpiMontant">0 FCFA</strong></div>
+          <div class="box">Tickets RU émis<strong id="kpiTickets">0</strong></div>
+          <div class="box">Fraudes bloquées<strong id="kpiFraudes">0</strong></div>
         </div>
       </div>
     </section>
 
     <section class="layout">
       <div class="panel">
-        <h2>🎟️ Demande de ticket numérique</h2>
-        <div class="grid-2">
+        <h2>1) Encaisser le paiement étudiant (100 FCFA)</h2>
+        <div class="grid2">
           <div>
             <label for="matricule">Matricule</label>
-            <input id="matricule" type="text" placeholder="BF-24-0179">
+            <input id="matricule" type="text" placeholder="BF-24-0179" />
           </div>
           <div>
-            <label for="nom">Nom & Prénom</label>
-            <input id="nom" type="text" placeholder="Awa Ouedraogo">
+            <label for="nom">Nom & prénom</label>
+            <input id="nom" type="text" placeholder="Awa Ouedraogo" />
           </div>
           <div>
-            <label for="repas">Repas</label>
-            <select id="repas">
-              <option value="Déjeuner">Déjeuner</option>
-              <option value="Dîner">Dîner</option>
+            <label for="methode">Option de paiement</label>
+            <select id="methode">
+              <option value="Orange Money">Orange Money</option>
+              <option value="Moov Money">Moov Money</option>
+              <option value="Wave">Wave</option>
+              <option value="Carte bancaire">Carte bancaire</option>
+              <option value="Espèces (guichet RU)">Espèces (guichet RU)</option>
             </select>
           </div>
           <div>
-            <label for="faculte">Faculté</label>
-            <select id="faculte">
-              <option value="SEG">SEG</option>
-              <option value="ST">Sciences & Techniques</option>
-              <option value="LAC">Lettres, Arts & Com.</option>
-              <option value="SJP">Sciences Juridiques</option>
-            </select>
+            <label for="phone">Numéro payeur / référence</label>
+            <input id="phone" type="text" placeholder="+22670000000 / REF-XYZ" />
           </div>
         </div>
 
         <div class="actions">
-          <button class="btn-main" onclick="genererTicket()">Générer ticket + numéro d'ordre</button>
-          <button class="btn-ok" onclick="servirProchain()">Servir le prochain étudiant</button>
-          <button class="btn-reset" onclick="reinitialiserJournee()">Réinitialiser la journée RU</button>
+          <button class="btn-pay" onclick="validerPaiement()">Valider paiement 100 FCFA</button>
+          <button class="btn-ticket" onclick="genererTicketRU()">Émettre ticket RU (si paiement dispo)</button>
+          <button class="btn-reset" onclick="resetJournee()">Réinitialiser journée</button>
         </div>
-        <div id="message" class="message"></div>
-        <p class="note">Chaque matricule est limité à 3 tickets par jour. Toute tentative supplémentaire est automatiquement bloquée.</p>
+        <div id="message" class="msg"></div>
+        <p class="note">Règle : chaque étudiant doit d’abord payer. 1 paiement validé = 1 crédit ticket. Maximum 3 tickets par jour et par matricule.</p>
       </div>
 
       <div class="panel">
-        <h2>🔔 Écran d'appel</h2>
-        <div class="call-screen">
-          <div>Numéro actuellement appelé</div>
-          <div class="now" id="appelEnCours">AUCUN</div>
+        <h2>2) Exploitation RU</h2>
+        <div class="call">
+          <div>Numéro appelé</div>
+          <div class="num" id="appel">AUCUN</div>
         </div>
+        <button class="btn-serve" onclick="servirProchain()">Servir le prochain ticket</button>
         <table>
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Code ticket</th>
-              <th>Étudiant</th>
-              <th>Statut</th>
-            </tr>
+            <tr><th>Ordre</th><th>Code ticket</th><th>Étudiant</th><th>Statut</th></tr>
           </thead>
           <tbody id="queueBody"></tbody>
         </table>
       </div>
     </section>
+
+    <section class="panel full">
+      <h2>Journal des paiements et rapprochement</h2>
+      <table>
+        <thead>
+          <tr><th>Transaction</th><th>Matricule</th><th>Nom</th><th>Méthode</th><th>Montant</th><th>Crédit restant</th><th>Heure</th></tr>
+        </thead>
+        <tbody id="paymentsBody"></tbody>
+      </table>
+      <p class="note">Ce journal facilite l’audit du prestataire RU : montant encaissé, tickets réellement émis, et état des crédits par étudiant.</p>
+    </section>
   </div>
 
   <script>
+    const PRIX_TICKET = 100;
     let ordre = 0;
-    let servis = 0;
     let fraudes = 0;
-    const ticketsParMatricule = new Map();
-    const fileNumerique = [];
+    let montantCollecte = 0;
+    let nbPaiements = 0;
 
-    function codeTicket(numero) {
-      const d = new Date();
-      const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-      return `RU-${date}-${String(numero).padStart(4, '0')}`;
+    const paiements = [];
+    const fileRU = [];
+    const creditsParMatricule = new Map();
+    const ticketsParMatricule = new Map();
+
+    function refTransaction() {
+      return `TX-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`;
     }
 
-    function notifier(text, type = 'success') {
-      const el = document.getElementById('message');
-      el.textContent = text;
-      el.className = `message show ${type}`;
+    function codeTicket(n) {
+      const d = new Date();
+      const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+      return `RU-${date}-${String(n).padStart(4, '0')}`;
+    }
+
+    function notify(txt, type = 'ok') {
+      const box = document.getElementById('message');
+      box.textContent = txt;
+      box.className = `msg show ${type}`;
     }
 
     function majUI() {
-      document.getElementById('totalTickets').textContent = fileNumerique.length;
-      document.getElementById('ticketsEnAttente').textContent = fileNumerique.filter(t => t.statut === 'En attente').length;
-      document.getElementById('repasServis').textContent = servis;
-      document.getElementById('fraudesBloquees').textContent = fraudes;
+      document.getElementById('kpiPayes').textContent = nbPaiements;
+      document.getElementById('kpiMontant').textContent = `${montantCollecte} FCFA`;
+      document.getElementById('kpiTickets').textContent = fileRU.length;
+      document.getElementById('kpiFraudes').textContent = fraudes;
 
-      const body = document.getElementById('queueBody');
-      body.innerHTML = fileNumerique.map(t => `
+      const queueBody = document.getElementById('queueBody');
+      queueBody.innerHTML = fileRU.map(t => `
         <tr>
           <td>${t.ordre}</td>
           <td>${t.code}</td>
@@ -335,66 +219,127 @@
           <td><span class="badge ${t.statut === 'Servi' ? 'served' : 'pending'}">${t.statut}</span></td>
         </tr>
       `).join('');
+
+      const paymentsBody = document.getElementById('paymentsBody');
+      paymentsBody.innerHTML = paiements.map(p => `
+        <tr>
+          <td>${p.transaction}</td>
+          <td>${p.matricule}</td>
+          <td>${p.nom}</td>
+          <td><span class="badge paid">${p.methode}</span></td>
+          <td>${p.montant} FCFA</td>
+          <td>${p.creditRestant}</td>
+          <td>${p.heure}</td>
+        </tr>
+      `).join('');
     }
 
-    function genererTicket() {
-      const matricule = document.getElementById('matricule').value.trim().toUpperCase();
-      const nom = document.getElementById('nom').value.trim();
-      const repas = document.getElementById('repas').value;
-      const faculte = document.getElementById('faculte').value;
+    function getInputs() {
+      return {
+        matricule: document.getElementById('matricule').value.trim().toUpperCase(),
+        nom: document.getElementById('nom').value.trim(),
+        methode: document.getElementById('methode').value,
+        phone: document.getElementById('phone').value.trim()
+      };
+    }
 
+    function validerPaiement() {
+      const { matricule, nom, methode, phone } = getInputs();
       if (!matricule || !nom) {
-        notifier('Merci de renseigner le matricule et le nom.', 'error');
+        notify('Veuillez renseigner matricule et nom avant paiement.', 'err');
         return;
       }
-
-      const pris = ticketsParMatricule.get(matricule) || 0;
-      if (pris >= 3) {
+      if ((ticketsParMatricule.get(matricule) || 0) >= 3) {
         fraudes += 1;
-        notifier(`Accès refusé: ${matricule} a déjà atteint la limite de 3 tickets aujourd'hui.`, 'error');
+        notify(`Paiement refusé: ${matricule} a déjà 3 tickets aujourd'hui.`, 'err');
         majUI();
         return;
       }
 
+      const creditAvant = creditsParMatricule.get(matricule) || 0;
+      const creditApres = creditAvant + 1;
+      creditsParMatricule.set(matricule, creditApres);
+
+      nbPaiements += 1;
+      montantCollecte += PRIX_TICKET;
+
+      paiements.unshift({
+        transaction: refTransaction(),
+        matricule,
+        nom,
+        methode,
+        montant: PRIX_TICKET,
+        creditRestant: creditApres,
+        heure: new Date().toLocaleTimeString(),
+        contact: phone || '-'
+      });
+
+      notify(`Paiement validé (${methode}) pour ${nom}. Crédit ticket disponible: ${creditApres}.`);
+      majUI();
+    }
+
+    function genererTicketRU() {
+      const { matricule, nom } = getInputs();
+      if (!matricule || !nom) {
+        notify('Veuillez renseigner matricule et nom.', 'err');
+        return;
+      }
+
+      const deja = ticketsParMatricule.get(matricule) || 0;
+      if (deja >= 3) {
+        fraudes += 1;
+        notify(`Émission refusée: limite 3 tickets atteinte pour ${matricule}.`, 'err');
+        majUI();
+        return;
+      }
+
+      const credit = creditsParMatricule.get(matricule) || 0;
+      if (credit <= 0) {
+        fraudes += 1;
+        notify(`Aucun paiement disponible pour ${matricule}. Encaissez d'abord 100 FCFA.`, 'err');
+        majUI();
+        return;
+      }
+
+      creditsParMatricule.set(matricule, credit - 1);
+      ticketsParMatricule.set(matricule, deja + 1);
       ordre += 1;
-      ticketsParMatricule.set(matricule, pris + 1);
-      const ticket = {
+
+      fileRU.push({
         ordre,
         code: codeTicket(ordre),
         matricule,
         nom,
-        repas,
-        faculte,
         statut: 'En attente'
-      };
+      });
 
-      fileNumerique.push(ticket);
-      notifier(`Ticket ${ticket.code} créé pour ${nom}. Ordre de passage: ${ticket.ordre}.`);
+      notify(`Ticket RU émis: ordre ${ordre}. Crédit restant ${matricule}: ${credit - 1}.`);
       majUI();
     }
 
     function servirProchain() {
-      const prochain = fileNumerique.find(t => t.statut === 'En attente');
+      const prochain = fileRU.find(t => t.statut === 'En attente');
       if (!prochain) {
-        notifier('Aucun ticket en attente pour le moment.', 'error');
+        notify('Aucun ticket en attente.', 'err');
         return;
       }
-
       prochain.statut = 'Servi';
-      servis += 1;
-      document.getElementById('appelEnCours').textContent = `N° ${prochain.ordre}`;
-      notifier(`Étudiant servi: ${prochain.nom} • ${prochain.code}.`);
+      document.getElementById('appel').textContent = `N° ${prochain.ordre}`;
+      notify(`Étudiant servi: ${prochain.nom} (${prochain.code}).`);
       majUI();
     }
 
-    function reinitialiserJournee() {
+    function resetJournee() {
       ordre = 0;
-      servis = 0;
       fraudes = 0;
+      montantCollecte = 0;
+      nbPaiements = 0;
+      paiements.length = 0;
+      fileRU.length = 0;
+      creditsParMatricule.clear();
       ticketsParMatricule.clear();
-      fileNumerique.length = 0;
-      document.getElementById('appelEnCours').textContent = 'AUCUN';
-      notifier('Journée réinitialisée. Le RU est prêt pour une nouvelle session.');
+      document.getElementById('appel').textContent = 'AUCUN';
+      notify('Journée RU réinitialisée.');
       majUI();
     }
 
