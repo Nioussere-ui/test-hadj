@@ -1,310 +1,404 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RU Smart Queue - Campus Burkina Faso</title>
-    <style>
-        :root {
-            --bg: #f5f7fb;
-            --card: #ffffff;
-            --primary: #155eef;
-            --success: #067647;
-            --danger: #b42318;
-            --text: #101828;
-            --muted: #475467;
-            --border: #d0d5dd;
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            font-family: Inter, Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 32px auto;
-            padding: 0 16px;
-        }
-
-        .hero {
-            background: linear-gradient(130deg, #0c2f8a, #155eef);
-            color: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        h1 { margin: 0 0 8px; }
-        p { margin: 6px 0; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 10px rgba(16, 24, 40, 0.06);
-        }
-
-        .card h2 {
-            margin-top: 0;
-            font-size: 1.1rem;
-        }
-
-        .form-group { margin-bottom: 12px; }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        input, select, button {
-            width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 0.95rem;
-        }
-
-        button {
-            cursor: pointer;
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-weight: 600;
-            margin-top: 6px;
-        }
-
-        button.secondary {
-            background: #344054;
-        }
-
-        button:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .stat {
-            background: #eef4ff;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .stat strong {
-            display: block;
-            font-size: 1.2rem;
-            color: #0c2f8a;
-        }
-
-        #message {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            display: none;
-        }
-
-        #message.success {
-            display: block;
-            background: #ecfdf3;
-            color: var(--success);
-            border: 1px solid #abefc6;
-        }
-
-        #message.error {
-            display: block;
-            background: #fef3f2;
-            color: var(--danger);
-            border: 1px solid #fecdca;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-            font-size: 0.92rem;
-        }
-
-        th, td {
-            border-bottom: 1px solid #eaecf0;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .muted { color: var(--muted); font-size: 0.9rem; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <section class="hero">
-        <h1>🍽️ RU Smart Queue - Campus Burkina Faso</h1>
-        <p>Prototype d'un système numérique pour supprimer les listes manuelles et les tablettes en bois.</p>
-        <p><strong>Objectif :</strong> attribution automatique des numéros, contrôle anti-fraude, maximum 3 tickets / étudiant / jour.</p>
-    </section>
-
-    <div class="grid">
-        <section class="card">
-            <h2>🎟️ Demander un ticket RU</h2>
-            <div class="form-group">
-                <label for="matricule">Matricule étudiant</label>
-                <input id="matricule" type="text" placeholder="Ex: BF-23-0451">
-            </div>
-            <div class="form-group">
-                <label for="nom">Nom complet</label>
-                <input id="nom" type="text" placeholder="Ex: Awa Ouedraogo">
-            </div>
-            <div class="form-group">
-                <label for="repas">Type de repas</label>
-                <select id="repas">
-                    <option value="Déjeuner">Déjeuner</option>
-                    <option value="Dîner">Dîner</option>
-                </select>
-            </div>
-            <button onclick="genererTicket()">Générer un ticket</button>
-            <button class="secondary" onclick="servirProchain()">Servir le prochain étudiant</button>
-            <div id="message"></div>
-            <p class="muted">Simulation locale de la logique métier. Les données se réinitialisent au rechargement de la page.</p>
-        </section>
-
-        <section class="card">
-            <h2>📊 Tableau de bord RU</h2>
-            <div class="stats">
-                <div class="stat"><strong id="ordre">0</strong>Ordre actuel</div>
-                <div class="stat"><strong id="enAttente">0</strong>Tickets en attente</div>
-                <div class="stat"><strong id="servis">0</strong>Repas servis</div>
-            </div>
-            <p><strong>Fraudes bloquées :</strong> <span id="fraudes">0</span></p>
-            <p><strong>Capacité totale consommée aujourd'hui :</strong> <span id="totalTickets">0</span></p>
-            <p class="muted">Règle clé : un étudiant ne peut pas dépasser 3 tickets par jour.</p>
-        </section>
-    </div>
-
-    <section class="card" style="margin-top:16px;">
-        <h2>🧾 File numérique en temps réel</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>N° d'ordre</th>
-                <th>Ticket</th>
-                <th>Étudiant</th>
-                <th>Repas</th>
-                <th>Statut</th>
-            </tr>
-            </thead>
-            <tbody id="queueBody"></tbody>
-        </table>
-    </section>
-</div>
-
-<script>
-    let ordreCourant = 0;
-    let fraudesBloquees = 0;
-    let repasServis = 0;
-    const ticketsParEtudiant = new Map();
-    const queue = [];
-
-    function ticketCode(numero) {
-        const date = new Date();
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `RU-${y}${m}${d}-${String(numero).padStart(4, '0')}`;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RU NovaFlow • Campus BF</title>
+  <style>
+    :root {
+      --bg: #060b1f;
+      --surface: rgba(255, 255, 255, 0.08);
+      --surface-strong: rgba(255, 255, 255, 0.14);
+      --primary: #5b8cff;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --line: rgba(255, 255, 255, 0.2);
     }
 
-    function notifier(message, type = 'success') {
-        const box = document.getElementById('message');
-        box.textContent = message;
-        box.className = type;
-        box.id = 'message';
-        box.classList.add(type);
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #1e3a8a, transparent 40%),
+                  radial-gradient(circle at 80% 10%, #6d28d9, transparent 35%),
+                  radial-gradient(circle at 30% 80%, #0f766e, transparent 45%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      animation: fadeIn 800ms ease;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 32px auto;
+      padding: 0 16px 32px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .panel {
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .main-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.3rem);
+      margin: 0 0 10px;
+      line-height: 1.25;
+    }
+
+    .subtitle { color: var(--muted); margin: 0; }
+
+    .tag {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: .8rem;
+      margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      color: #dbeafe;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    label {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, select, button {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 10px 11px;
+      font-size: .96rem;
+    }
+
+    input, select {
+      background: rgba(15, 23, 42, 0.55);
+      color: var(--text);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, opacity .2s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    .btn-main { background: linear-gradient(90deg, #4f46e5, #2563eb); color: white; }
+    .btn-ok { background: linear-gradient(90deg, #059669, #10b981); color: white; }
+    .btn-reset { background: linear-gradient(90deg, #b45309, #f59e0b); color: white; }
+
+    .actions { display: grid; gap: 8px; margin-top: 10px; }
+
+    .message {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      padding: 10px;
+      display: none;
+    }
+
+    .message.show { display: block; animation: pop .25s ease; }
+    .message.success { background: rgba(16, 185, 129, .15); border-color: rgba(16,185,129,.45); }
+    .message.error { background: rgba(239, 68, 68, .15); border-color: rgba(239,68,68,.45); }
+
+    .call-screen {
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .call-screen .now {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #93c5fd;
+      animation: pulse 1.4s ease infinite;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: .92rem;
+    }
+
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 9px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: .75rem;
+      border: 1px solid transparent;
+      display: inline-block;
+    }
+
+    .pending { color: #fde68a; border-color: rgba(245, 158, 11, .5); }
+    .served { color: #86efac; border-color: rgba(16, 185, 129, .5); }
+
+    .note { font-size: .85rem; color: var(--muted); margin-top: 8px; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(59, 130, 246, 0.4); }
+      50% { transform: scale(1.06); text-shadow: 0 0 18px rgba(59, 130, 246, 0.8); }
+    }
+
+    @keyframes pop {
+      from { transform: translateY(4px); opacity: .2; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width: 980px) {
+      .hero, .layout { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="panel">
+        <div class="tag">🇧🇫 Projet campus • RU NovaFlow</div>
+        <h1 class="main-title">Système intelligent de tickets RU pour supprimer les longues files d'attente</h1>
+        <p class="subtitle">Fini les listes papier et les tablettes en bois. La plateforme génère automatiquement l'ordre de passage, contrôle la limite de 3 tickets/jour et renforce la transparence.</p>
+      </div>
+      <div class="panel">
+        <h2>Indicateurs du jour</h2>
+        <div class="stats">
+          <div class="stat"><span>Tickets créés</span><strong id="totalTickets">0</strong></div>
+          <div class="stat"><span>En attente</span><strong id="ticketsEnAttente">0</strong></div>
+          <div class="stat"><span>Repas servis</span><strong id="repasServis">0</strong></div>
+          <div class="stat"><span>Fraudes bloquées</span><strong id="fraudesBloquees">0</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <h2>🎟️ Demande de ticket numérique</h2>
+        <div class="grid-2">
+          <div>
+            <label for="matricule">Matricule</label>
+            <input id="matricule" type="text" placeholder="BF-24-0179">
+          </div>
+          <div>
+            <label for="nom">Nom & Prénom</label>
+            <input id="nom" type="text" placeholder="Awa Ouedraogo">
+          </div>
+          <div>
+            <label for="repas">Repas</label>
+            <select id="repas">
+              <option value="Déjeuner">Déjeuner</option>
+              <option value="Dîner">Dîner</option>
+            </select>
+          </div>
+          <div>
+            <label for="faculte">Faculté</label>
+            <select id="faculte">
+              <option value="SEG">SEG</option>
+              <option value="ST">Sciences & Techniques</option>
+              <option value="LAC">Lettres, Arts & Com.</option>
+              <option value="SJP">Sciences Juridiques</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-main" onclick="genererTicket()">Générer ticket + numéro d'ordre</button>
+          <button class="btn-ok" onclick="servirProchain()">Servir le prochain étudiant</button>
+          <button class="btn-reset" onclick="reinitialiserJournee()">Réinitialiser la journée RU</button>
+        </div>
+        <div id="message" class="message"></div>
+        <p class="note">Chaque matricule est limité à 3 tickets par jour. Toute tentative supplémentaire est automatiquement bloquée.</p>
+      </div>
+
+      <div class="panel">
+        <h2>🔔 Écran d'appel</h2>
+        <div class="call-screen">
+          <div>Numéro actuellement appelé</div>
+          <div class="now" id="appelEnCours">AUCUN</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Code ticket</th>
+              <th>Étudiant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="queueBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let ordre = 0;
+    let servis = 0;
+    let fraudes = 0;
+    const ticketsParMatricule = new Map();
+    const fileNumerique = [];
+
+    function codeTicket(numero) {
+      const d = new Date();
+      const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+      return `RU-${date}-${String(numero).padStart(4, '0')}`;
+    }
+
+    function notifier(text, type = 'success') {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = `message show ${type}`;
+    }
+
+    function majUI() {
+      document.getElementById('totalTickets').textContent = fileNumerique.length;
+      document.getElementById('ticketsEnAttente').textContent = fileNumerique.filter(t => t.statut === 'En attente').length;
+      document.getElementById('repasServis').textContent = servis;
+      document.getElementById('fraudesBloquees').textContent = fraudes;
+
+      const body = document.getElementById('queueBody');
+      body.innerHTML = fileNumerique.map(t => `
+        <tr>
+          <td>${t.ordre}</td>
+          <td>${t.code}</td>
+          <td>${t.nom} (${t.matricule})</td>
+          <td><span class="badge ${t.statut === 'Servi' ? 'served' : 'pending'}">${t.statut}</span></td>
+        </tr>
+      `).join('');
     }
 
     function genererTicket() {
-        const matricule = document.getElementById('matricule').value.trim().toUpperCase();
-        const nom = document.getElementById('nom').value.trim();
-        const repas = document.getElementById('repas').value;
+      const matricule = document.getElementById('matricule').value.trim().toUpperCase();
+      const nom = document.getElementById('nom').value.trim();
+      const repas = document.getElementById('repas').value;
+      const faculte = document.getElementById('faculte').value;
 
-        if (!matricule || !nom) {
-            return notifier('Veuillez renseigner le matricule et le nom.', 'error');
-        }
+      if (!matricule || !nom) {
+        notifier('Merci de renseigner le matricule et le nom.', 'error');
+        return;
+      }
 
-        const dejaPris = ticketsParEtudiant.get(matricule) || 0;
-        if (dejaPris >= 3) {
-            fraudesBloquees += 1;
-            majTableau();
-            return notifier(`Limite atteinte : ${matricule} a déjà pris 3 tickets aujourd'hui.`, 'error');
-        }
+      const pris = ticketsParMatricule.get(matricule) || 0;
+      if (pris >= 3) {
+        fraudes += 1;
+        notifier(`Accès refusé: ${matricule} a déjà atteint la limite de 3 tickets aujourd'hui.`, 'error');
+        majUI();
+        return;
+      }
 
-        ordreCourant += 1;
-        ticketsParEtudiant.set(matricule, dejaPris + 1);
+      ordre += 1;
+      ticketsParMatricule.set(matricule, pris + 1);
+      const ticket = {
+        ordre,
+        code: codeTicket(ordre),
+        matricule,
+        nom,
+        repas,
+        faculte,
+        statut: 'En attente'
+      };
 
-        const ticket = {
-            ordre: ordreCourant,
-            code: ticketCode(ordreCourant),
-            matricule,
-            nom,
-            repas,
-            statut: 'En attente'
-        };
-
-        queue.push(ticket);
-        notifier(`Ticket créé avec succès : ${ticket.code} (Ordre ${ticket.ordre})`);
-        majTableau();
+      fileNumerique.push(ticket);
+      notifier(`Ticket ${ticket.code} créé pour ${nom}. Ordre de passage: ${ticket.ordre}.`);
+      majUI();
     }
 
     function servirProchain() {
-        const prochain = queue.find((t) => t.statut === 'En attente');
-        if (!prochain) {
-            return notifier('Aucun ticket en attente.', 'error');
-        }
+      const prochain = fileNumerique.find(t => t.statut === 'En attente');
+      if (!prochain) {
+        notifier('Aucun ticket en attente pour le moment.', 'error');
+        return;
+      }
 
-        prochain.statut = 'Servi';
-        repasServis += 1;
-        notifier(`Étudiant servi : ${prochain.nom} (${prochain.code}).`);
-        majTableau();
+      prochain.statut = 'Servi';
+      servis += 1;
+      document.getElementById('appelEnCours').textContent = `N° ${prochain.ordre}`;
+      notifier(`Étudiant servi: ${prochain.nom} • ${prochain.code}.`);
+      majUI();
     }
 
-    function majTableau() {
-        document.getElementById('ordre').textContent = ordreCourant;
-        document.getElementById('fraudes').textContent = fraudesBloquees;
-        document.getElementById('servis').textContent = repasServis;
-        document.getElementById('totalTickets').textContent = queue.length;
-
-        const enAttente = queue.filter((t) => t.statut === 'En attente').length;
-        document.getElementById('enAttente').textContent = enAttente;
-
-        const body = document.getElementById('queueBody');
-        body.innerHTML = queue.map((t) => `
-            <tr>
-                <td>${t.ordre}</td>
-                <td>${t.code}</td>
-                <td>${t.nom} (${t.matricule})</td>
-                <td>${t.repas}</td>
-                <td>${t.statut}</td>
-            </tr>
-        `).join('');
+    function reinitialiserJournee() {
+      ordre = 0;
+      servis = 0;
+      fraudes = 0;
+      ticketsParMatricule.clear();
+      fileNumerique.length = 0;
+      document.getElementById('appelEnCours').textContent = 'AUCUN';
+      notifier('Journée réinitialisée. Le RU est prêt pour une nouvelle session.');
+      majUI();
     }
 
-    majTableau();
-</script>
+    majUI();
+  </script>
 </body>
 </html>
