@@ -1,119 +1,349 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Plateforme Test Hadj</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        .form-group { margin: 15px 0; }
-        label { display: inline-block; width: 200px; }
-        input, select { width: 300px; padding: 8px; }
-        .step { border: 1px solid #ccc; padding: 20px; margin: 20px 0; }
-        .step-title { color: #2E86C1; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RU NovaFlow+ • Paiement intelligent</title>
+  <style>
+    :root {
+      --bg: #060b1f;
+      --surface: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.2);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --primary: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, #1e3a8a, transparent 35%),
+        radial-gradient(circle at 82% 20%, #7c3aed, transparent 33%),
+        radial-gradient(circle at 30% 85%, #0f766e, transparent 40%),
+        var(--bg);
+      min-height: 100vh;
+      animation: fade .7s ease;
+    }
+    .container { max-width: 1200px; margin: 28px auto; padding: 0 16px 28px; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 34px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+    }
+    .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .title { margin: 0 0 8px; font-size: clamp(1.4rem, 2.4vw, 2.1rem); }
+    .subtitle { margin: 0; color: var(--muted); }
+    .chip {
+      display: inline-block; margin-bottom: 8px; padding: 5px 10px; border-radius: 999px;
+      border: 1px solid var(--line); background: rgba(255,255,255,.08); font-size: .82rem; animation: float 3s ease-in-out infinite;
+    }
+    .kpi { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+    .kpi .box { border: 1px solid var(--line); border-radius: 12px; padding: 10px; background: rgba(255,255,255,.05); }
+    .kpi strong { display: block; font-size: 1.35rem; }
+
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    h2 { margin: 0 0 10px; font-size: 1.05rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    label { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 4px; }
+    input, select, button {
+      width: 100%; border-radius: 11px; border: 1px solid var(--line); padding: 9px 10px; font-size: .94rem;
+    }
+    input, select { background: rgba(15,23,42,.58); color: var(--text); }
+    button { border: none; cursor: pointer; color: white; font-weight: 700; transition: transform .15s ease; }
+    button:hover { transform: translateY(-1px); }
+    .btn-pay { background: linear-gradient(90deg,#4f46e5,#2563eb); }
+    .btn-ticket { background: linear-gradient(90deg,#059669,#10b981); }
+    .btn-serve { background: linear-gradient(90deg,#0284c7,#0ea5e9); }
+    .btn-reset { background: linear-gradient(90deg,#b45309,#f59e0b); }
+    .actions { margin-top: 8px; display: grid; gap: 7px; }
+
+    .msg { display:none; margin-top:8px; border-radius: 10px; padding: 10px; border: 1px solid transparent; }
+    .msg.show { display:block; animation: pop .25s ease; }
+    .msg.ok { background: rgba(16,185,129,.14); border-color: rgba(16,185,129,.5); }
+    .msg.err { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.5); }
+
+    .call { text-align: center; border: 1px dashed var(--line); border-radius: 14px; padding: 11px; background: rgba(15,23,42,.45); margin-bottom: 8px; }
+    .call .num { font-size: 1.8rem; font-weight: 900; color: #93c5fd; animation: pulse 1.35s ease infinite; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 7px; font-size: .9rem; }
+    th, td { text-align: left; border-bottom: 1px solid rgba(255,255,255,.15); padding: 8px; vertical-align: top; }
+    .badge { display:inline-block; padding: 3px 8px; border-radius: 999px; border: 1px solid transparent; font-size: .74rem; }
+    .pending { color: #fde68a; border-color: rgba(245,158,11,.55); }
+    .served { color: #86efac; border-color: rgba(16,185,129,.55); }
+    .paid { color: #93c5fd; border-color: rgba(59,130,246,.6); }
+
+    .full { margin-top: 14px; }
+    .note { color: var(--muted); font-size: .84rem; margin-top: 6px; }
+
+    @media (max-width: 980px) {
+      .hero, .layout, .grid2 { grid-template-columns: 1fr; }
+    }
+    @keyframes pulse { 50% { transform: scale(1.06); text-shadow: 0 0 16px rgba(59,130,246,.7); } }
+    @keyframes pop { from { transform: translateY(4px); opacity: .2; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes float { 50% { transform: translateY(-4px); } }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  </style>
 </head>
 <body>
-    <h1>🏪 Plateforme de Test - Inscription Hadj</h1>
-    
-    <!-- Étape 1 : Création de compte -->
-    <div class="step" id="etape1">
-        <div class="step-title">Étape 1 : Création de compte</div>
-        <form id="form-compte">
-            <div class="form-group">
-                <label for="telephone">Téléphone :</label>
-                <input type="tel" id="telephone" name="telephone" placeholder="+22670123456">
-            </div>
-            <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" placeholder="exemple@email.com">
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password">
-            </div>
-            <button type="button" onclick="validerEtape1()">Valider</button>
-        </form>
-    </div>
-    
-    <!-- Étape 2 : Informations personnelles -->
-    <div class="step" id="etape2" style="display:none;">
-        <div class="step-title">Étape 2 : Informations personnelles</div>
-        <form id="form-personnel">
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom">
-            </div>
-            <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom">
-            </div>
-            <div class="form-group">
-                <label for="date_naissance">Date de naissance :</label>
-                <input type="date" id="date_naissance" name="date_naissance">
-            </div>
-            <div class="form-group">
-                <label for="passeport">Numéro passeport :</label>
-                <input type="text" id="passeport" name="passeport">
-            </div>
-            <div class="form-group">
-                <label for="photo">Photo passeport :</label>
-                <input type="file" id="photo" name="photo" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label for="agence">Agence :</label>
-                <select id="agence" name="agence">
-                    <option value="">Sélectionnez...</option>
-                    <option value="hijaz">Agence El Hijaz Voyages</option>
-                    <option value="safar">Agence Safar Voyages</option>
-                </select>
-            </div>
-            <button type="button" onclick="validerEtape2()">Valider</button>
-        </form>
-    </div>
-    
-    <!-- Étape 3 : Documents -->
-    <div class="step" id="etape3" style="display:none;">
-        <div class="step-title">Étape 3 : Documents justificatifs</div>
-        <form id="form-documents">
-            <div class="form-group">
-                <label for="recu">Reçu de paiement :</label>
-                <input type="file" id="recu" name="recu" accept=".pdf,.jpg,.png">
-            </div>
-            <div class="form-group">
-                <label for="certificat">Certificat médical :</label>
-                <input type="file" id="certificat" name="certificat" accept=".pdf,.jpg,.png">
-            </div>
-            <div class="form-group">
-                <label>Numéro d'inscription :</label>
-                <input type="text" id="numero_inscription" readonly value="HAJ-2024-XXXXXX">
-            </div>
-            <button type="button" onclick="validerEtape3()">Finaliser l'inscription</button>
-        </form>
-    </div>
-    
-    <!-- Résultat -->
-    <div class="step" id="resultat" style="display:none;">
-        <div class="step-title" style="color:green;">✅ Inscription terminée avec succès !</div>
-        <p>Numéro d'inscription : <strong id="num_final">HAJ-2024-XXXXXX</strong></p>
-        <p>Date : <span id="date_finale"></span></p>
-    </div>
-    
-    <script>
-        function validerEtape1() {
-            document.getElementById('etape1').style.display = 'none';
-            document.getElementById('etape2').style.display = 'block';
-        }
-        
-        function validerEtape2() {
-            document.getElementById('etape2').style.display = 'none';
-            document.getElementById('etape3').style.display = 'block';
-        }
-        
-        function validerEtape3() {
-            document.getElementById('etape3').style.display = 'none';
-            document.getElementById('resultat').style.display = 'block';
-            document.getElementById('date_finale').textContent = new Date().toLocaleDateString();
-        }
-    </script>
+  <div class="container">
+    <section class="hero">
+      <div class="panel">
+        <span class="chip">🇧🇫 RU NovaFlow+ • Paiement 100 FCFA avant ticket</span>
+        <h1 class="title">Faire mieux qu’Orange seul : paiement multi-options + ticket RU vérifiable</h1>
+        <p class="subtitle">L’étudiant paie d’abord <strong>100 FCFA</strong>, puis le système crée un crédit utilisable pour générer un ticket RU (max 3/jour). Cela permet un suivi exact des paiements, des repas, et des fraudes.</p>
+      </div>
+      <div class="panel">
+        <h2>Tableau de contrôle</h2>
+        <div class="kpi">
+          <div class="box">Paiements validés<strong id="kpiPayes">0</strong></div>
+          <div class="box">Montant collecté<strong id="kpiMontant">0 FCFA</strong></div>
+          <div class="box">Tickets RU émis<strong id="kpiTickets">0</strong></div>
+          <div class="box">Fraudes bloquées<strong id="kpiFraudes">0</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <h2>1) Encaisser le paiement étudiant (100 FCFA)</h2>
+        <div class="grid2">
+          <div>
+            <label for="matricule">Matricule</label>
+            <input id="matricule" type="text" placeholder="BF-24-0179" />
+          </div>
+          <div>
+            <label for="nom">Nom & prénom</label>
+            <input id="nom" type="text" placeholder="Awa Ouedraogo" />
+          </div>
+          <div>
+            <label for="methode">Option de paiement</label>
+            <select id="methode">
+              <option value="Orange Money">Orange Money</option>
+              <option value="Moov Money">Moov Money</option>
+              <option value="Wave">Wave</option>
+              <option value="Carte bancaire">Carte bancaire</option>
+              <option value="Espèces (guichet RU)">Espèces (guichet RU)</option>
+            </select>
+          </div>
+          <div>
+            <label for="phone">Numéro payeur / référence</label>
+            <input id="phone" type="text" placeholder="+22670000000 / REF-XYZ" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-pay" onclick="validerPaiement()">Valider paiement 100 FCFA</button>
+          <button class="btn-ticket" onclick="genererTicketRU()">Émettre ticket RU (si paiement dispo)</button>
+          <button class="btn-reset" onclick="resetJournee()">Réinitialiser journée</button>
+        </div>
+        <div id="message" class="msg"></div>
+        <p class="note">Règle : chaque étudiant doit d’abord payer. 1 paiement validé = 1 crédit ticket. Maximum 3 tickets par jour et par matricule.</p>
+      </div>
+
+      <div class="panel">
+        <h2>2) Exploitation RU</h2>
+        <div class="call">
+          <div>Numéro appelé</div>
+          <div class="num" id="appel">AUCUN</div>
+        </div>
+        <button class="btn-serve" onclick="servirProchain()">Servir le prochain ticket</button>
+        <table>
+          <thead>
+            <tr><th>Ordre</th><th>Code ticket</th><th>Étudiant</th><th>Statut</th></tr>
+          </thead>
+          <tbody id="queueBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel full">
+      <h2>Journal des paiements et rapprochement</h2>
+      <table>
+        <thead>
+          <tr><th>Transaction</th><th>Matricule</th><th>Nom</th><th>Méthode</th><th>Montant</th><th>Crédit restant</th><th>Heure</th></tr>
+        </thead>
+        <tbody id="paymentsBody"></tbody>
+      </table>
+      <p class="note">Ce journal facilite l’audit du prestataire RU : montant encaissé, tickets réellement émis, et état des crédits par étudiant.</p>
+    </section>
+  </div>
+
+  <script>
+    const PRIX_TICKET = 100;
+    let ordre = 0;
+    let fraudes = 0;
+    let montantCollecte = 0;
+    let nbPaiements = 0;
+
+    const paiements = [];
+    const fileRU = [];
+    const creditsParMatricule = new Map();
+    const ticketsParMatricule = new Map();
+
+    function refTransaction() {
+      return `TX-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`;
+    }
+
+    function codeTicket(n) {
+      const d = new Date();
+      const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+      return `RU-${date}-${String(n).padStart(4, '0')}`;
+    }
+
+    function notify(txt, type = 'ok') {
+      const box = document.getElementById('message');
+      box.textContent = txt;
+      box.className = `msg show ${type}`;
+    }
+
+    function majUI() {
+      document.getElementById('kpiPayes').textContent = nbPaiements;
+      document.getElementById('kpiMontant').textContent = `${montantCollecte} FCFA`;
+      document.getElementById('kpiTickets').textContent = fileRU.length;
+      document.getElementById('kpiFraudes').textContent = fraudes;
+
+      const queueBody = document.getElementById('queueBody');
+      queueBody.innerHTML = fileRU.map(t => `
+        <tr>
+          <td>${t.ordre}</td>
+          <td>${t.code}</td>
+          <td>${t.nom} (${t.matricule})</td>
+          <td><span class="badge ${t.statut === 'Servi' ? 'served' : 'pending'}">${t.statut}</span></td>
+        </tr>
+      `).join('');
+
+      const paymentsBody = document.getElementById('paymentsBody');
+      paymentsBody.innerHTML = paiements.map(p => `
+        <tr>
+          <td>${p.transaction}</td>
+          <td>${p.matricule}</td>
+          <td>${p.nom}</td>
+          <td><span class="badge paid">${p.methode}</span></td>
+          <td>${p.montant} FCFA</td>
+          <td>${p.creditRestant}</td>
+          <td>${p.heure}</td>
+        </tr>
+      `).join('');
+    }
+
+    function getInputs() {
+      return {
+        matricule: document.getElementById('matricule').value.trim().toUpperCase(),
+        nom: document.getElementById('nom').value.trim(),
+        methode: document.getElementById('methode').value,
+        phone: document.getElementById('phone').value.trim()
+      };
+    }
+
+    function validerPaiement() {
+      const { matricule, nom, methode, phone } = getInputs();
+      if (!matricule || !nom) {
+        notify('Veuillez renseigner matricule et nom avant paiement.', 'err');
+        return;
+      }
+      if ((ticketsParMatricule.get(matricule) || 0) >= 3) {
+        fraudes += 1;
+        notify(`Paiement refusé: ${matricule} a déjà 3 tickets aujourd'hui.`, 'err');
+        majUI();
+        return;
+      }
+
+      const creditAvant = creditsParMatricule.get(matricule) || 0;
+      const creditApres = creditAvant + 1;
+      creditsParMatricule.set(matricule, creditApres);
+
+      nbPaiements += 1;
+      montantCollecte += PRIX_TICKET;
+
+      paiements.unshift({
+        transaction: refTransaction(),
+        matricule,
+        nom,
+        methode,
+        montant: PRIX_TICKET,
+        creditRestant: creditApres,
+        heure: new Date().toLocaleTimeString(),
+        contact: phone || '-'
+      });
+
+      notify(`Paiement validé (${methode}) pour ${nom}. Crédit ticket disponible: ${creditApres}.`);
+      majUI();
+    }
+
+    function genererTicketRU() {
+      const { matricule, nom } = getInputs();
+      if (!matricule || !nom) {
+        notify('Veuillez renseigner matricule et nom.', 'err');
+        return;
+      }
+
+      const deja = ticketsParMatricule.get(matricule) || 0;
+      if (deja >= 3) {
+        fraudes += 1;
+        notify(`Émission refusée: limite 3 tickets atteinte pour ${matricule}.`, 'err');
+        majUI();
+        return;
+      }
+
+      const credit = creditsParMatricule.get(matricule) || 0;
+      if (credit <= 0) {
+        fraudes += 1;
+        notify(`Aucun paiement disponible pour ${matricule}. Encaissez d'abord 100 FCFA.`, 'err');
+        majUI();
+        return;
+      }
+
+      creditsParMatricule.set(matricule, credit - 1);
+      ticketsParMatricule.set(matricule, deja + 1);
+      ordre += 1;
+
+      fileRU.push({
+        ordre,
+        code: codeTicket(ordre),
+        matricule,
+        nom,
+        statut: 'En attente'
+      });
+
+      notify(`Ticket RU émis: ordre ${ordre}. Crédit restant ${matricule}: ${credit - 1}.`);
+      majUI();
+    }
+
+    function servirProchain() {
+      const prochain = fileRU.find(t => t.statut === 'En attente');
+      if (!prochain) {
+        notify('Aucun ticket en attente.', 'err');
+        return;
+      }
+      prochain.statut = 'Servi';
+      document.getElementById('appel').textContent = `N° ${prochain.ordre}`;
+      notify(`Étudiant servi: ${prochain.nom} (${prochain.code}).`);
+      majUI();
+    }
+
+    function resetJournee() {
+      ordre = 0;
+      fraudes = 0;
+      montantCollecte = 0;
+      nbPaiements = 0;
+      paiements.length = 0;
+      fileRU.length = 0;
+      creditsParMatricule.clear();
+      ticketsParMatricule.clear();
+      document.getElementById('appel').textContent = 'AUCUN';
+      notify('Journée RU réinitialisée.');
+      majUI();
+    }
+
+    majUI();
+  </script>
 </body>
 </html>
