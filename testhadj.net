@@ -2,118 +2,309 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Plateforme Test Hadj</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RU Smart Queue - Campus Burkina Faso</title>
     <style>
-        body { font-family: Arial; margin: 40px; }
-        .form-group { margin: 15px 0; }
-        label { display: inline-block; width: 200px; }
-        input, select { width: 300px; padding: 8px; }
-        .step { border: 1px solid #ccc; padding: 20px; margin: 20px 0; }
-        .step-title { color: #2E86C1; font-weight: bold; }
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --primary: #155eef;
+            --success: #067647;
+            --danger: #b42318;
+            --text: #101828;
+            --muted: #475467;
+            --border: #d0d5dd;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+
+        .hero {
+            background: linear-gradient(130deg, #0c2f8a, #155eef);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        h1 { margin: 0 0 8px; }
+        p { margin: 6px 0; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(16, 24, 40, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        .form-group { margin-bottom: 12px; }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        input, select, button {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.95rem;
+        }
+
+        button {
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        button.secondary {
+            background: #344054;
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .stat {
+            background: #eef4ff;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.2rem;
+            color: #0c2f8a;
+        }
+
+        #message {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        #message.success {
+            display: block;
+            background: #ecfdf3;
+            color: var(--success);
+            border: 1px solid #abefc6;
+        }
+
+        #message.error {
+            display: block;
+            background: #fef3f2;
+            color: var(--danger);
+            border: 1px solid #fecdca;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            border-bottom: 1px solid #eaecf0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .muted { color: var(--muted); font-size: 0.9rem; }
     </style>
 </head>
 <body>
-    <h1>🏪 Plateforme de Test - Inscription Hadj</h1>
-    
-    <!-- Étape 1 : Création de compte -->
-    <div class="step" id="etape1">
-        <div class="step-title">Étape 1 : Création de compte</div>
-        <form id="form-compte">
+<div class="container">
+    <section class="hero">
+        <h1>🍽️ RU Smart Queue - Campus Burkina Faso</h1>
+        <p>Prototype d'un système numérique pour supprimer les listes manuelles et les tablettes en bois.</p>
+        <p><strong>Objectif :</strong> attribution automatique des numéros, contrôle anti-fraude, maximum 3 tickets / étudiant / jour.</p>
+    </section>
+
+    <div class="grid">
+        <section class="card">
+            <h2>🎟️ Demander un ticket RU</h2>
             <div class="form-group">
-                <label for="telephone">Téléphone :</label>
-                <input type="tel" id="telephone" name="telephone" placeholder="+22670123456">
+                <label for="matricule">Matricule étudiant</label>
+                <input id="matricule" type="text" placeholder="Ex: BF-23-0451">
             </div>
             <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" placeholder="exemple@email.com">
+                <label for="nom">Nom complet</label>
+                <input id="nom" type="text" placeholder="Ex: Awa Ouedraogo">
             </div>
             <div class="form-group">
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password">
-            </div>
-            <button type="button" onclick="validerEtape1()">Valider</button>
-        </form>
-    </div>
-    
-    <!-- Étape 2 : Informations personnelles -->
-    <div class="step" id="etape2" style="display:none;">
-        <div class="step-title">Étape 2 : Informations personnelles</div>
-        <form id="form-personnel">
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom">
-            </div>
-            <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom">
-            </div>
-            <div class="form-group">
-                <label for="date_naissance">Date de naissance :</label>
-                <input type="date" id="date_naissance" name="date_naissance">
-            </div>
-            <div class="form-group">
-                <label for="passeport">Numéro passeport :</label>
-                <input type="text" id="passeport" name="passeport">
-            </div>
-            <div class="form-group">
-                <label for="photo">Photo passeport :</label>
-                <input type="file" id="photo" name="photo" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label for="agence">Agence :</label>
-                <select id="agence" name="agence">
-                    <option value="">Sélectionnez...</option>
-                    <option value="hijaz">Agence El Hijaz Voyages</option>
-                    <option value="safar">Agence Safar Voyages</option>
+                <label for="repas">Type de repas</label>
+                <select id="repas">
+                    <option value="Déjeuner">Déjeuner</option>
+                    <option value="Dîner">Dîner</option>
                 </select>
             </div>
-            <button type="button" onclick="validerEtape2()">Valider</button>
-        </form>
-    </div>
-    
-    <!-- Étape 3 : Documents -->
-    <div class="step" id="etape3" style="display:none;">
-        <div class="step-title">Étape 3 : Documents justificatifs</div>
-        <form id="form-documents">
-            <div class="form-group">
-                <label for="recu">Reçu de paiement :</label>
-                <input type="file" id="recu" name="recu" accept=".pdf,.jpg,.png">
+            <button onclick="genererTicket()">Générer un ticket</button>
+            <button class="secondary" onclick="servirProchain()">Servir le prochain étudiant</button>
+            <div id="message"></div>
+            <p class="muted">Simulation locale de la logique métier. Les données se réinitialisent au rechargement de la page.</p>
+        </section>
+
+        <section class="card">
+            <h2>📊 Tableau de bord RU</h2>
+            <div class="stats">
+                <div class="stat"><strong id="ordre">0</strong>Ordre actuel</div>
+                <div class="stat"><strong id="enAttente">0</strong>Tickets en attente</div>
+                <div class="stat"><strong id="servis">0</strong>Repas servis</div>
             </div>
-            <div class="form-group">
-                <label for="certificat">Certificat médical :</label>
-                <input type="file" id="certificat" name="certificat" accept=".pdf,.jpg,.png">
-            </div>
-            <div class="form-group">
-                <label>Numéro d'inscription :</label>
-                <input type="text" id="numero_inscription" readonly value="HAJ-2024-XXXXXX">
-            </div>
-            <button type="button" onclick="validerEtape3()">Finaliser l'inscription</button>
-        </form>
+            <p><strong>Fraudes bloquées :</strong> <span id="fraudes">0</span></p>
+            <p><strong>Capacité totale consommée aujourd'hui :</strong> <span id="totalTickets">0</span></p>
+            <p class="muted">Règle clé : un étudiant ne peut pas dépasser 3 tickets par jour.</p>
+        </section>
     </div>
-    
-    <!-- Résultat -->
-    <div class="step" id="resultat" style="display:none;">
-        <div class="step-title" style="color:green;">✅ Inscription terminée avec succès !</div>
-        <p>Numéro d'inscription : <strong id="num_final">HAJ-2024-XXXXXX</strong></p>
-        <p>Date : <span id="date_finale"></span></p>
-    </div>
-    
-    <script>
-        function validerEtape1() {
-            document.getElementById('etape1').style.display = 'none';
-            document.getElementById('etape2').style.display = 'block';
+
+    <section class="card" style="margin-top:16px;">
+        <h2>🧾 File numérique en temps réel</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>N° d'ordre</th>
+                <th>Ticket</th>
+                <th>Étudiant</th>
+                <th>Repas</th>
+                <th>Statut</th>
+            </tr>
+            </thead>
+            <tbody id="queueBody"></tbody>
+        </table>
+    </section>
+</div>
+
+<script>
+    let ordreCourant = 0;
+    let fraudesBloquees = 0;
+    let repasServis = 0;
+    const ticketsParEtudiant = new Map();
+    const queue = [];
+
+    function ticketCode(numero) {
+        const date = new Date();
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `RU-${y}${m}${d}-${String(numero).padStart(4, '0')}`;
+    }
+
+    function notifier(message, type = 'success') {
+        const box = document.getElementById('message');
+        box.textContent = message;
+        box.className = type;
+        box.id = 'message';
+        box.classList.add(type);
+    }
+
+    function genererTicket() {
+        const matricule = document.getElementById('matricule').value.trim().toUpperCase();
+        const nom = document.getElementById('nom').value.trim();
+        const repas = document.getElementById('repas').value;
+
+        if (!matricule || !nom) {
+            return notifier('Veuillez renseigner le matricule et le nom.', 'error');
         }
-        
-        function validerEtape2() {
-            document.getElementById('etape2').style.display = 'none';
-            document.getElementById('etape3').style.display = 'block';
+
+        const dejaPris = ticketsParEtudiant.get(matricule) || 0;
+        if (dejaPris >= 3) {
+            fraudesBloquees += 1;
+            majTableau();
+            return notifier(`Limite atteinte : ${matricule} a déjà pris 3 tickets aujourd'hui.`, 'error');
         }
-        
-        function validerEtape3() {
-            document.getElementById('etape3').style.display = 'none';
-            document.getElementById('resultat').style.display = 'block';
-            document.getElementById('date_finale').textContent = new Date().toLocaleDateString();
+
+        ordreCourant += 1;
+        ticketsParEtudiant.set(matricule, dejaPris + 1);
+
+        const ticket = {
+            ordre: ordreCourant,
+            code: ticketCode(ordreCourant),
+            matricule,
+            nom,
+            repas,
+            statut: 'En attente'
+        };
+
+        queue.push(ticket);
+        notifier(`Ticket créé avec succès : ${ticket.code} (Ordre ${ticket.ordre})`);
+        majTableau();
+    }
+
+    function servirProchain() {
+        const prochain = queue.find((t) => t.statut === 'En attente');
+        if (!prochain) {
+            return notifier('Aucun ticket en attente.', 'error');
         }
-    </script>
+
+        prochain.statut = 'Servi';
+        repasServis += 1;
+        notifier(`Étudiant servi : ${prochain.nom} (${prochain.code}).`);
+        majTableau();
+    }
+
+    function majTableau() {
+        document.getElementById('ordre').textContent = ordreCourant;
+        document.getElementById('fraudes').textContent = fraudesBloquees;
+        document.getElementById('servis').textContent = repasServis;
+        document.getElementById('totalTickets').textContent = queue.length;
+
+        const enAttente = queue.filter((t) => t.statut === 'En attente').length;
+        document.getElementById('enAttente').textContent = enAttente;
+
+        const body = document.getElementById('queueBody');
+        body.innerHTML = queue.map((t) => `
+            <tr>
+                <td>${t.ordre}</td>
+                <td>${t.code}</td>
+                <td>${t.nom} (${t.matricule})</td>
+                <td>${t.repas}</td>
+                <td>${t.statut}</td>
+            </tr>
+        `).join('');
+    }
+
+    majTableau();
+</script>
 </body>
 </html>
