@@ -1,119 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Plateforme Test Hadj</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        .form-group { margin: 15px 0; }
-        label { display: inline-block; width: 200px; }
-        input, select { width: 300px; padding: 8px; }
-        .step { border: 1px solid #ccc; padding: 20px; margin: 20px 0; }
-        .step-title { color: #2E86C1; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAMAs Invest | Inscription</title>
+  <style>
+    :root {
+      --bg:#060b17;--line:rgba(145,169,224,.28);--text:#eef3ff;--muted:#9fb0d2;--primary:#5ea1ff;--primary2:#63e7ff;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:radial-gradient(circle at 85% 12%,rgba(68,130,255,.28),transparent 45%),#060b17;color:var(--text);padding:26px 16px}
+    .shell{max-width:1200px;margin:0 auto;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(160deg,rgba(15,24,44,.95),rgba(8,14,29,.96));box-shadow:0 24px 68px rgba(2,6,18,.6)}
+    .topbar{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+    .brand{font-weight:700}.layout{display:grid;grid-template-columns:1.05fr .95fr}.hero{padding:44px;border-right:1px solid var(--line)}
+    .panel{padding:34px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}
+    label{display:block;margin-bottom:6px;font-size:.88rem;color:#bccbf0;font-weight:700}
+    input,select{width:100%;border:1px solid var(--line);background:rgba(10,17,33,.95);color:var(--text);border-radius:10px;padding:11px 12px;outline:none}
+    .check{display:flex;gap:9px;color:var(--muted);font-size:.87rem;margin:10px 0 18px;align-items:flex-start}.check input{width:auto}
+    .btn{width:100%;border:none;border-radius:10px;padding:13px;font-size:.98rem;font-weight:700;color:#04203b;background:linear-gradient(120deg,var(--primary),var(--primary2));cursor:pointer}
+    .result{display:none;margin-top:13px;border:1px solid rgba(50,210,150,.45);border-radius:10px;color:#b7f8df;background:rgba(12,48,36,.5);padding:12px}
+    .lead{color:var(--muted);line-height:1.6}.list{padding-left:18px;color:#cfe0ff}
+    @media (max-width:960px){.layout{grid-template-columns:1fr}.hero{border-right:none;border-bottom:1px solid var(--line)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-    <h1>🏪 Plateforme de Test - Inscription Hadj</h1>
-    
-    <!-- Étape 1 : Création de compte -->
-    <div class="step" id="etape1">
-        <div class="step-title">Étape 1 : Création de compte</div>
-        <form id="form-compte">
-            <div class="form-group">
-                <label for="telephone">Téléphone :</label>
-                <input type="tel" id="telephone" name="telephone" placeholder="+22670123456">
-            </div>
-            <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" placeholder="exemple@email.com">
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password">
-            </div>
-            <button type="button" onclick="validerEtape1()">Valider</button>
+  <main class="shell">
+    <div class="topbar"><div class="brand">KAMAs Invest</div><div>Étape 1/3</div></div>
+    <div class="layout">
+      <section class="hero">
+        <h1>Créer votre compte investisseur</h1>
+        <p class="lead">Commencez votre parcours d'investissement. Après cette étape, vous passerez à la vérification de votre profil puis à votre tableau de bord.</p>
+        <ul class="list">
+          <li>Inscription sécurisée</li>
+          <li>Vérification d'identité</li>
+          <li>Accès au dashboard investisseur</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <form id="register-form">
+          <div class="grid">
+            <div class="field"><label for="firstName">Prénom</label><input id="firstName" required></div>
+            <div class="field"><label for="lastName">Nom</label><input id="lastName" required></div>
+          </div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+          <div class="field"><label for="phone">Téléphone</label><input id="phone" required></div>
+          <div class="grid">
+            <div class="field"><label for="country">Pays</label><select id="country" required><option value="">Select</option><option>Burkina Faso</option><option>Côte d'Ivoire</option></select></div>
+            <div class="field"><label for="currency">Devise</label><select id="currency" required><option value="">Select</option><option>XOF</option><option>USD</option></select></div>
+          </div>
+          <div class="grid">
+            <div class="field"><label for="password">Password</label><input id="password" type="password" minlength="8" required></div>
+            <div class="field"><label for="confirmPassword">Confirm</label><input id="confirmPassword" type="password" minlength="8" required></div>
+          </div>
+          <label class="check"><input id="terms" type="checkbox" required><span>I accept terms.</span></label>
+          <button class="btn" type="submit">Continuer vers vérification</button>
         </form>
+        <div id="result" class="result"></div>
+      </section>
     </div>
-    
-    <!-- Étape 2 : Informations personnelles -->
-    <div class="step" id="etape2" style="display:none;">
-        <div class="step-title">Étape 2 : Informations personnelles</div>
-        <form id="form-personnel">
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom">
-            </div>
-            <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom">
-            </div>
-            <div class="form-group">
-                <label for="date_naissance">Date de naissance :</label>
-                <input type="date" id="date_naissance" name="date_naissance">
-            </div>
-            <div class="form-group">
-                <label for="passeport">Numéro passeport :</label>
-                <input type="text" id="passeport" name="passeport">
-            </div>
-            <div class="form-group">
-                <label for="photo">Photo passeport :</label>
-                <input type="file" id="photo" name="photo" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label for="agence">Agence :</label>
-                <select id="agence" name="agence">
-                    <option value="">Sélectionnez...</option>
-                    <option value="hijaz">Agence El Hijaz Voyages</option>
-                    <option value="safar">Agence Safar Voyages</option>
-                </select>
-            </div>
-            <button type="button" onclick="validerEtape2()">Valider</button>
-        </form>
-    </div>
-    
-    <!-- Étape 3 : Documents -->
-    <div class="step" id="etape3" style="display:none;">
-        <div class="step-title">Étape 3 : Documents justificatifs</div>
-        <form id="form-documents">
-            <div class="form-group">
-                <label for="recu">Reçu de paiement :</label>
-                <input type="file" id="recu" name="recu" accept=".pdf,.jpg,.png">
-            </div>
-            <div class="form-group">
-                <label for="certificat">Certificat médical :</label>
-                <input type="file" id="certificat" name="certificat" accept=".pdf,.jpg,.png">
-            </div>
-            <div class="form-group">
-                <label>Numéro d'inscription :</label>
-                <input type="text" id="numero_inscription" readonly value="HAJ-2024-XXXXXX">
-            </div>
-            <button type="button" onclick="validerEtape3()">Finaliser l'inscription</button>
-        </form>
-    </div>
-    
-    <!-- Résultat -->
-    <div class="step" id="resultat" style="display:none;">
-        <div class="step-title" style="color:green;">✅ Inscription terminée avec succès !</div>
-        <p>Numéro d'inscription : <strong id="num_final">HAJ-2024-XXXXXX</strong></p>
-        <p>Date : <span id="date_finale"></span></p>
-    </div>
-    
-    <script>
-        function validerEtape1() {
-            document.getElementById('etape1').style.display = 'none';
-            document.getElementById('etape2').style.display = 'block';
-        }
-        
-        function validerEtape2() {
-            document.getElementById('etape2').style.display = 'none';
-            document.getElementById('etape3').style.display = 'block';
-        }
-        
-        function validerEtape3() {
-            document.getElementById('etape3').style.display = 'none';
-            document.getElementById('resultat').style.display = 'block';
-            document.getElementById('date_finale').textContent = new Date().toLocaleDateString();
-        }
-    </script>
+  </main>
+  <script>
+    const form=document.getElementById('register-form'); const result=document.getElementById('result');
+    function makeId(){return `KMS-INV-${new Date().getFullYear()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`}
+    form.addEventListener('submit',(e)=>{e.preventDefault();
+      if(document.getElementById('password').value!==document.getElementById('confirmPassword').value){result.style.display='block';result.textContent='Error: Password confirmation does not match.';return;}
+      const investorId=makeId();
+      localStorage.setItem('kamasInvestorId', investorId);
+      localStorage.setItem('kamasInvestorName', `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`);
+      window.location.href=`verification.html?id=${encodeURIComponent(investorId)}`;
+    });
+  </script>
 </body>
 </html>

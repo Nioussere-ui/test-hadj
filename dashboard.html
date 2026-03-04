@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>KAMAs Invest | Dashboard</title>
+<style>body{margin:0;font-family:Arial,sans-serif;background:#081225;color:#eaf0ff;padding:24px}.wrap{max-width:980px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:#121f3b;border:1px solid #2a3a63;border-radius:12px;padding:14px}.big{font-size:1.4rem;font-weight:700}.muted{color:#9eb0d3}@media(max-width:760px){.cards{grid-template-columns:1fr}}</style></head>
+<body><div class="wrap"><div class="top"><h1>Dashboard Investisseur</h1><span id="status" class="muted"></span></div>
+<p id="hello" class="muted"></p>
+<div class="cards"><div class="card"><div class="muted">Solde disponible</div><div class="big">2,450,000 XOF</div></div><div class="card"><div class="muted">Profit mensuel</div><div class="big">+7.4%</div></div><div class="card"><div class="muted">Statut compte</div><div class="big">Active</div></div></div>
+</div>
+<script>
+const params=new URLSearchParams(window.location.search);const id=params.get('id')||localStorage.getItem('kamasInvestorId')||'N/A';
+const name=localStorage.getItem('kamasInvestorName')||'Investisseur';
+const kyc=localStorage.getItem('kamasKycStatus')||'Pending';
+document.getElementById('hello').textContent=`Bienvenue ${name} — ID: ${id}`;
+document.getElementById('status').textContent=`KYC: ${kyc}`;
+</script></body></html>
