@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KAMAs Invest | Register</title>
+  <title>KAMAs Invest | Plateforme Premium</title>
   <style>
     :root {
-      --bg: #f3f6fb;
-      --card: #ffffff;
-      --text: #132238;
-      --muted: #607289;
-      --primary: #1366d6;
-      --primary-hover: #0f55b2;
-      --border: #dbe5f0;
-      --success: #0f9d58;
-      --shadow: 0 24px 55px rgba(13, 34, 66, 0.14);
+      --bg: #060b17;
+      --surface: rgba(13, 20, 38, 0.78);
+      --surface-2: rgba(15, 24, 45, 0.94);
+      --text: #eef3ff;
+      --muted: #9fb0d2;
+      --line: rgba(145, 169, 224, 0.28);
+      --primary: #5ea1ff;
+      --primary-2: #63e7ff;
+      --success: #32d296;
     }
 
     * { box-sizing: border-box; }
@@ -22,306 +22,364 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 85% 12%, rgba(68, 130, 255, 0.28), transparent 45%),
+        radial-gradient(circle at 5% 90%, rgba(99, 231, 255, 0.18), transparent 40%),
+        var(--bg);
       color: var(--text);
-      background: radial-gradient(circle at 8% 0%, #eef5ff 0%, #f7f9fd 35%, #f4fff8 100%);
       min-height: 100vh;
-      padding: 28px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 26px 16px;
     }
 
     .shell {
-      width: min(1150px, 100%);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 22px;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      background: linear-gradient(160deg, rgba(15, 24, 44, 0.95) 0%, rgba(8, 14, 29, 0.96) 100%);
+      box-shadow: 0 24px 68px rgba(2, 6, 18, 0.6);
+    }
+
+    .topbar {
+      height: 58px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: rgba(8, 14, 29, 0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+      box-shadow: 0 0 14px rgba(94, 161, 255, .8);
+    }
+
+    .top-link {
+      color: var(--muted);
+      font-size: .9rem;
+      text-decoration: none;
+    }
+
+    .layout {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
+      min-height: calc(100vh - 130px);
     }
 
-    .marketing {
-      padding: 44px;
-      background: linear-gradient(160deg, #f6fbff 0%, #ebfff8 100%);
-      border-right: 1px solid var(--border);
+    .hero {
+      padding: 48px;
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(94, 161, 255, .08), transparent 30%);
     }
 
-    .kicker {
+    .pill {
       display: inline-block;
-      padding: 7px 13px;
+      border: 1px solid rgba(99, 231, 255, .45);
+      color: #b8f4ff;
+      background: rgba(99, 231, 255, .08);
       border-radius: 999px;
-      border: 1px solid #bed4f1;
-      background: #edf4ff;
-      color: #295ea6;
-      font-size: 0.82rem;
+      padding: 7px 14px;
+      font-size: .8rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
     }
 
     h1 {
-      margin: 14px 0 10px;
-      font-size: 2.02rem;
-      line-height: 1.2;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      margin: 18px 0 12px;
+      line-height: 1.15;
     }
 
     .lead {
-      margin: 0 0 24px;
       color: var(--muted);
-      line-height: 1.55;
       max-width: 45ch;
+      line-height: 1.6;
+      margin-bottom: 26px;
     }
 
-    .benefits {
-      margin: 0;
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(12, 20, 38, 0.75);
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
       padding: 0;
       list-style: none;
-      display: grid;
-      gap: 12px;
+      margin: 0;
     }
 
-    .benefits li {
-      border: 1px solid var(--border);
+    .list li {
+      border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 13px;
-      color: #35506c;
-      background: #fff;
-      font-size: 0.94rem;
+      background: rgba(14, 23, 43, 0.82);
+      padding: 12px;
+      color: #cfe0ff;
+      font-size: .92rem;
     }
 
-    .form-panel {
-      padding: 36px;
-      background: #fff;
+    .panel {
+      padding: 34px;
+      background: var(--surface-2);
     }
 
-    .form-panel h2 {
+    .panel h2 {
       margin: 0 0 6px;
       font-size: 1.45rem;
     }
 
-    .hint {
+    .desc {
       margin: 0 0 20px;
       color: var(--muted);
-      font-size: 0.93rem;
+      font-size: .92rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .field { margin-bottom: 12px; }
 
     label {
       display: block;
       margin-bottom: 6px;
-      font-size: 0.9rem;
+      font-size: .88rem;
+      color: #bccbf0;
       font-weight: 700;
-      color: #425d79;
     }
 
     input, select {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
+      background: rgba(10, 17, 33, 0.95);
+      color: var(--text);
       border-radius: 10px;
       padding: 11px 12px;
-      font-size: 0.95rem;
-      color: var(--text);
-      background: #fff;
       outline: none;
     }
 
     input:focus, select:focus {
-      border-color: #5f9ceb;
-      box-shadow: 0 0 0 3px rgba(95, 156, 235, 0.2);
+      border-color: rgba(99, 231, 255, .7);
+      box-shadow: 0 0 0 3px rgba(99, 231, 255, .15);
     }
 
-    .row {
+    .check {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 8px 0 18px;
-      color: #4c6580;
-      font-size: 0.89rem;
+      gap: 9px;
+      color: var(--muted);
+      font-size: .87rem;
+      margin: 10px 0 18px;
+      align-items: flex-start;
     }
 
-    .row input { width: auto; }
+    .check input { width: auto; margin-top: 2px; }
 
     .btn {
       width: 100%;
       border: none;
       border-radius: 10px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 1rem;
+      padding: 13px;
+      font-size: .98rem;
       font-weight: 700;
-      padding: 13px 14px;
+      color: #04203b;
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
       cursor: pointer;
     }
 
-    .btn:hover { background: var(--primary-hover); }
-
-    .sub {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.85rem;
-      text-align: center;
-    }
+    .btn:hover { filter: brightness(1.05); }
 
     .result {
-      margin-top: 14px;
-      border: 1px solid #bbe8cd;
-      background: #f1fff6;
-      color: #0f5132;
-      padding: 12px;
-      border-radius: 10px;
       display: none;
-    }
-
-    .warn {
-      color: #8a6d1e;
-      background: #fff8e6;
-      border: 1px solid #f3dd98;
+      margin-top: 13px;
+      border: 1px solid rgba(50, 210, 150, .45);
       border-radius: 10px;
-      padding: 10px;
-      font-size: 0.85rem;
-      margin-top: 12px;
+      color: #b7f8df;
+      background: rgba(12, 48, 36, .5);
+      padding: 12px;
+      font-size: .9rem;
     }
 
-    @media (max-width: 940px) {
-      .shell { grid-template-columns: 1fr; }
-      .marketing { border-right: none; border-bottom: 1px solid var(--border); }
+    .foot {
+      margin-top: 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .83rem;
     }
 
-    @media (max-width: 620px) {
-      .marketing, .form-panel { padding: 24px 18px; }
-      .grid { grid-template-columns: 1fr; }
-      h1 { font-size: 1.6rem; }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .hero { border-right: none; border-bottom: 1px solid var(--line); padding: 30px 22px; }
+      .panel { padding: 26px 20px; }
+    }
+
+    @media (max-width: 640px) {
+      .grid, .stats { grid-template-columns: 1fr; }
+      .topbar { padding: 0 14px; }
     }
   </style>
 </head>
 <body>
   <main class="shell">
-    <section class="marketing">
-      <span class="kicker">KAMAs Invest • Portail sécurisé</span>
-      <h1>Investissez intelligemment avec KAMAs</h1>
-      <p class="lead">Créez votre compte investisseur pour accéder à votre espace, suivre vos rendements et démarrer votre plan d'investissement en ligne.</p>
+    <div class="topbar">
+      <div class="brand"><span class="dot"></span>KAMAs Invest</div>
+      <a class="top-link" href="#">Already have an account?</a>
+    </div>
 
-      <ul class="benefits">
-        <li>📈 Tableau de bord investisseur avec suivi des performances.</li>
-        <li>🔒 Vérification sécurisée et protection des données personnelles.</li>
-        <li>💳 Dépôts simplifiés et assistance dédiée KAMAs Invest.</li>
-      </ul>
-    </section>
+    <div class="layout">
+      <section class="hero">
+        <span class="pill">Alternative Investment Platform</span>
+        <h1>Build your capital with a premium investment experience</h1>
+        <p class="lead">Rejoignez KAMAs Invest pour accéder à des opportunités diversifiées, une interface moderne et un accompagnement expert pour vos objectifs financiers.</p>
 
-    <section class="form-panel">
-      <h2>Ouvrir un compte investisseur</h2>
-      <p class="hint">Veuillez renseigner vos informations pour finaliser l'inscription.</p>
-
-      <form id="register-form">
-        <div class="grid">
-          <div class="field">
-            <label for="firstName">Prénom</label>
-            <input id="firstName" name="firstName" type="text" required>
-          </div>
-          <div class="field">
-            <label for="lastName">Nom</label>
-            <input id="lastName" name="lastName" type="text" required>
-          </div>
+        <div class="stats">
+          <div class="stat"><strong>15K+</strong><span>Investors onboarded</span></div>
+          <div class="stat"><strong>24/7</strong><span>Portfolio monitoring</span></div>
+          <div class="stat"><strong>256-bit</strong><span>Data encryption</span></div>
         </div>
 
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="vous@exemple.com" required>
-        </div>
+        <ul class="list">
+          <li>✅ Suivi de portefeuille en temps réel.</li>
+          <li>✅ Dépôts/retraits simplifiés et rapides.</li>
+          <li>✅ Assistance dédiée pour investisseurs.</li>
+        </ul>
+      </section>
 
-        <div class="field">
-          <label for="phone">Téléphone</label>
-          <input id="phone" name="phone" type="tel" placeholder="+226 70 12 34 56" required>
-        </div>
+      <section class="panel">
+        <h2>Create Your Investor Account</h2>
+        <p class="desc">Enter your details below to complete registration.</p>
 
-        <div class="grid">
-          <div class="field">
-            <label for="country">Pays</label>
-            <select id="country" name="country" required>
-              <option value="">Sélectionnez</option>
-              <option value="BF">Burkina Faso</option>
-              <option value="CI">Côte d'Ivoire</option>
-              <option value="SN">Sénégal</option>
-              <option value="TG">Togo</option>
-            </select>
+        <form id="register-form">
+          <div class="grid">
+            <div class="field">
+              <label for="firstName">First Name</label>
+              <input id="firstName" type="text" required>
+            </div>
+            <div class="field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" type="text" required>
+            </div>
           </div>
+
           <div class="field">
-            <label for="currency">Devise</label>
-            <select id="currency" name="currency" required>
-              <option value="">Sélectionnez</option>
-              <option value="XOF">XOF</option>
-              <option value="EUR">EUR</option>
-              <option value="USD">USD</option>
-            </select>
+            <label for="email">Email Address</label>
+            <input id="email" type="email" placeholder="you@example.com" required>
           </div>
-        </div>
 
-        <div class="grid">
           <div class="field">
-            <label for="password">Mot de passe</label>
-            <input id="password" name="password" type="password" minlength="8" required>
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" placeholder="+226 70 00 00 00" required>
           </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="country">Country</label>
+              <select id="country" required>
+                <option value="">Select country</option>
+                <option>Burkina Faso</option>
+                <option>Côte d'Ivoire</option>
+                <option>Sénégal</option>
+                <option>Togo</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="currency">Account Currency</label>
+              <select id="currency" required>
+                <option value="">Select currency</option>
+                <option>XOF</option>
+                <option>USD</option>
+                <option>EUR</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" minlength="8" required>
+            </div>
+            <div class="field">
+              <label for="confirmPassword">Confirm Password</label>
+              <input id="confirmPassword" type="password" minlength="8" required>
+            </div>
+          </div>
+
           <div class="field">
-            <label for="confirmPassword">Confirmer le mot de passe</label>
-            <input id="confirmPassword" name="confirmPassword" type="password" minlength="8" required>
+            <label for="partnerCode">Partner Code (optional)</label>
+            <input id="partnerCode" type="text" placeholder="4ML7ODNY6">
           </div>
-        </div>
 
-        <div class="field">
-          <label for="promo">Code partenaire (optionnel)</label>
-          <input id="promo" name="promo" type="text" placeholder="Ex: 4ML7ODNY6">
-        </div>
+          <label class="check">
+            <input id="terms" type="checkbox" required>
+            <span>I accept the KAMAs Invest Terms & Conditions and Privacy Policy.</span>
+          </label>
 
-        <label class="row" for="terms">
-          <input id="terms" type="checkbox" required>
-          <span>J'accepte les conditions d'utilisation et la politique de confidentialité KAMAs Invest.</span>
-        </label>
+          <button class="btn" type="submit">Create Account</button>
+        </form>
 
-        <button class="btn" type="submit">S'inscrire maintenant</button>
-      </form>
-
-      <div class="result" id="result"></div>
-      <div class="warn">Note: Ceci est une maquette de page d'inscription KAMAs Invest (design original, non copie de marque tierce).</div>
-      <p class="sub">Déjà membre ? Connectez-vous depuis votre espace investisseur.</p>
-    </section>
+        <div id="result" class="result"></div>
+        <p class="foot">By registering, you confirm your information is accurate.</p>
+      </section>
+    </div>
   </main>
 
   <script>
     const form = document.getElementById('register-form');
     const result = document.getElementById('result');
 
-    function generateInvestorId() {
-      return `INV-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+    function makeId() {
+      return `KMS-INV-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     }
 
-    form.addEventListener('submit', function (event) {
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
+      const p1 = document.getElementById('password').value;
+      const p2 = document.getElementById('confirmPassword').value;
 
-      if (password !== confirmPassword) {
-        result.style.display = 'block';
-        result.style.borderColor = '#f3c6cf';
-        result.style.background = '#fff3f5';
-        result.style.color = '#842029';
-        result.textContent = 'Erreur: les mots de passe ne correspondent pas.';
+      result.style.display = 'block';
+
+      if (p1 !== p2) {
+        result.style.borderColor = 'rgba(255, 148, 148, 0.55)';
+        result.style.background = 'rgba(72, 20, 28, 0.5)';
+        result.style.color = '#ffd8d8';
+        result.textContent = 'Error: Password confirmation does not match.';
         return;
       }
 
-      const investorId = generateInvestorId();
-      result.style.display = 'block';
-      result.style.borderColor = '#bbe8cd';
-      result.style.background = '#f1fff6';
-      result.style.color = '#0f5132';
-      result.textContent = `Compte créé avec succès ✅ Votre identifiant investisseur: ${investorId}`;
+      const investorId = makeId();
+      result.style.borderColor = 'rgba(50, 210, 150, .45)';
+      result.style.background = 'rgba(12, 48, 36, .5)';
+      result.style.color = '#b7f8df';
+      result.textContent = `Registration successful ✅ Your investor ID: ${investorId}`;
       form.reset();
     });
   </script>
