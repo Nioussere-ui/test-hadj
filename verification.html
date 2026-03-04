@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>KAMAs Invest | Vérification</title>
+<style>body{margin:0;font-family:Arial,sans-serif;background:#0b1224;color:#eaf0ff;padding:24px}.card{max-width:820px;margin:0 auto;background:#111b33;border:1px solid #2a3a63;border-radius:16px;padding:24px}.muted{color:#9eb0d3}.field{margin:12px 0}label{display:block;margin-bottom:6px}input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #2a3a63;background:#0a1327;color:#fff}.btn{margin-top:14px;border:0;padding:11px 14px;border-radius:9px;background:#62a7ff;color:#031833;font-weight:700;cursor:pointer}</style></head>
+<body><div class="card"><h1>Vérification du profil</h1><p class="muted">Étape 2/3 — Confirmez vos informations KYC avant d'accéder au tableau de bord.</p>
+<p id="investor-ref"></p>
+<div class="field"><label>Type de pièce</label><select id="idType" required><option>Passeport</option><option>CNIB</option></select></div>
+<div class="field"><label>Numéro de pièce</label><input id="idNumber" required></div>
+<div class="field"><label>Preuve d'adresse</label><input id="addressProof" type="file" required></div>
+<button class="btn" id="nextBtn">Finaliser la vérification</button></div>
+<script>
+const params=new URLSearchParams(window.location.search);const id=params.get('id')||localStorage.getItem('kamasInvestorId')||'N/A';
+document.getElementById('investor-ref').textContent=`Identifiant investisseur: ${id}`;
+document.getElementById('nextBtn').addEventListener('click',()=>{localStorage.setItem('kamasKycStatus','Verified');window.location.href=`dashboard.html?id=${encodeURIComponent(id)}`;});
+</script></body></html>
